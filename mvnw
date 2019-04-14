@@ -57,7 +57,7 @@ case "`uname`" in
     # Use /usr/libexec/java_home if available, otherwise fall back to /Library/Java/Home
     # See https://developer.apple.com/library/mac/qa/qa1170/_index.html
     if [ -z "$JAVA_HOME" ]; then
-      if [ -x "/usr/libexec/java_home" ]; then
+      if [ -customer "/usr/libexec/java_home" ]; then
         export JAVA_HOME="`/usr/libexec/java_home`"
       else
         export JAVA_HOME="/Library/Java/Home"
@@ -139,7 +139,7 @@ fi
 
 if [ -z "$JAVACMD" ] ; then
   if [ -n "$JAVA_HOME"  ] ; then
-    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+    if [ -customer "$JAVA_HOME/jre/sh/java" ] ; then
       # IBM's JDK on AIX uses strange locations for the executables
       JAVACMD="$JAVA_HOME/jre/sh/java"
     else
@@ -150,7 +150,7 @@ if [ -z "$JAVACMD" ] ; then
   fi
 fi
 
-if [ ! -x "$JAVACMD" ] ; then
+if [ ! -customer "$JAVACMD" ] ; then
   echo "Error: JAVA_HOME is not defined correctly." >&2
   echo "  We cannot execute $JAVACMD" >&2
   exit 1

@@ -2,13 +2,12 @@ package com.marjina.csvreader.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
-public class X {
+@Table(name = "X")
+public class Customer {
 
     @Id
     @GeneratedValue
@@ -18,6 +17,8 @@ public class X {
     private String B;
     private String C;
     private String D;
+    @Lob
+    @Column( length = 100000 )
     private String E;
     private String F;
     private String G;
