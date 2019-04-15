@@ -82,7 +82,6 @@ public class SpringBatchConfig {
         flatFileItemReader.setResource(resource);
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1);
-//        flatFileItemReader.setRecordSeparatorPolicy(new CustomLineSeparatorPolicy());
         flatFileItemReader.setLineMapper(lineMapper());
         return flatFileItemReader;
     }
@@ -91,11 +90,11 @@ public class SpringBatchConfig {
     public LineMapper<Customer> lineMapper() {
 
         DefaultLineMapper<Customer> defaultLineMapper = new DefaultLineMapper<>();
-        DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
+        DelimitedLineTokenizer lineTokenizer =new DelimitedLineTokenizer();
 
         lineTokenizer.setDelimiter(",");
 //        lineTokenizer.setQuoteCharacter('"');
-        lineTokenizer.setStrict(true);
+        lineTokenizer.setStrict(false);
         lineTokenizer.setNames(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"});
         BeanWrapperFieldSetMapper<Customer> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(Customer.class);
