@@ -2,16 +2,15 @@ package com.marjina.csvreader.config;
 
 import com.marjina.csvreader.entity.Customer;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class Processor implements ItemProcessor<Customer, Customer> {
+public class DataBaseProcessor implements ItemProcessor<Customer, Customer> {
 
 
     @Override
-    public Customer process(Customer customer) throws Exception {
+    public Customer process(Customer customer){
         System.out.println(customer.toString());
         if(customer.isComplete()) {
             return customer;
@@ -19,6 +18,5 @@ public class Processor implements ItemProcessor<Customer, Customer> {
         else{
             return null;
         }
-
     }
 }

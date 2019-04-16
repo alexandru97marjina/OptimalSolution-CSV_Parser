@@ -9,15 +9,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DBWriter implements ItemWriter<Customer> {
-
+public class DataBaseWriter implements ItemWriter<Customer> {
     @Autowired
     private CustomerRepository customerRepository;
 
     @Override
-    public void write(List<? extends Customer> customers) throws Exception {
-
-        System.out.println("Data Saved for Customer: " + customers);
+    public void write(List<? extends Customer> customers){
         customerRepository.save(customers);
     }
 }

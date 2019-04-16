@@ -1,8 +1,6 @@
 package com.marjina.csvreader.batch;
 
-import com.marjina.csvreader.config.DBWriter;
-import com.marjina.csvreader.config.Dumper;
-import com.marjina.csvreader.config.Processor;
+import com.marjina.csvreader.config.*;
 import com.marjina.csvreader.entity.Customer;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -38,16 +36,17 @@ public class SpringBatchConfig {
     private Resource outputResource = new FileSystemResource("output/bad-data-"+new SimpleDateFormat("dd-MM-yyyy-HH-mm").format(new Date())+".csv");
 
     @Bean
-    public Job job(JobBuilderFactory jobBuilderFactory1,
-                   StepBuilderFactory stepBuilderFactory1,
-                   ItemReader<Customer> itemReader
+    public Job job_toDB(JobBuilderFactory jobBuilderFactory1,
+                        StepBuilderFactory stepBuilderFactory1,
+                        ItemReader<Customer> csvItemReader
     ) {
 
         Step step1 = stepBuilderFactory1.get("ETL-file-load")
                 .<Customer, Customer>chunk(100)
-                .reader(itemReader)
-                .processor(processor2())
-                .writer(dbWriter())
+                .reader(csvItemReader)
+                .processor(dataBaseProcessor())
+                .writer(dataBaseWriter())
+                .listener(new StatisticsListener())
                 .build();
 
 
@@ -56,8 +55,10 @@ public class SpringBatchConfig {
                 .start(step1)
                 .build();
     }
+
+
     @Bean
-    public Job job2(JobBuilderFactory jobBuilderFactory2,
+    public Job job_BadData(JobBuilderFactory jobBuilderFactory2,
                    StepBuilderFactory stepBuilderFactory2,
                    ItemReader<Customer> itemReader
     ) {
@@ -67,8 +68,8 @@ public class SpringBatchConfig {
         Step step2 = stepBuilderFactory2.get("ETL-file-load")
                 .<Customer, Customer>chunk(100)
                 .reader(itemReader)
-                .processor(dumper())
-                .writer(itemWriter2())
+                .processor(dumpProcessor())
+                .writer(dumpFileWriter())
                 .build();
 
 
@@ -79,46 +80,25 @@ public class SpringBatchConfig {
     }
 
 
+
     @Bean
-    public ItemWriter<Customer> dbWriter(){
-        return new DBWriter();
+    public ItemWriter<Customer> dataBaseWriter(){
+        return new DataBaseWriter();
     }
 
     @Bean
-    public ItemProcessor<Customer,Customer> processor2() {
-        return new Processor();
-    }
-
-    @Bean
-    public ItemProcessor<Customer,Customer> dumper(){
-        return new Dumper();
+    public ItemProcessor<Customer,Customer> dataBaseProcessor() {
+        return new DataBaseProcessor();
     }
 
 
     @Bean
-    public FlatFileItemWriter<Customer> itemWriter2()
-    {
-        FlatFileItemWriter<Customer> writer = new FlatFileItemWriter<>();
-
-        writer.setResource(outputResource);
-
-        writer.setLineAggregator(new DelimitedLineAggregator<Customer>() {
-            {
-                setDelimiter(",");
-                setFieldExtractor(new BeanWrapperFieldExtractor<Customer>() {
-                    {
-                        setNames(new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"});
-
-                    }
-                });
-            }
-        });
-        return writer;
+    public ItemProcessor<Customer,Customer> dumpProcessor(){
+        return new DumpItemProcessor();
     }
 
-
     @Bean
-    public FlatFileItemReader<Customer> itemReader1(@Value("${input}") Resource resource) {
+    public FlatFileItemReader<Customer> itemReader(@Value("${input}") Resource resource) {
 
         FlatFileItemReader<Customer> flatFileItemReader = new FlatFileItemReader<>();
         flatFileItemReader.setResource(resource);
@@ -146,5 +126,25 @@ public class SpringBatchConfig {
 
         return defaultLineMapper;
     }
+
+
+    @Bean
+    public FlatFileItemWriter<Customer> dumpFileWriter()
+    {
+        FlatFileItemWriter<Customer> writer = new FlatFileItemWriter<>();
+        writer.setResource(outputResource);
+        writer.setLineAggregator(new DelimitedLineAggregator<Customer>() {
+            { setDelimiter(",");
+                setFieldExtractor(new BeanWrapperFieldExtractor<Customer>() {
+                    {
+                        setNames(new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"});
+                    }
+                });
+            }
+        });
+        return writer;
+    }
+
+
 
 }
