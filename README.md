@@ -3,10 +3,11 @@
 ***
 ### Start application
 
-1. ``mvn clean install``  
-2. ``java -jar csvreader.war``  
-3. __to run csvReader open http://localhost:8081/load__
-4. __to view dataBase table with sorted Records from input file in /resources/Interview-task-data-osh.csv
+1. __clone repository, go to project folder and open terminal__ 
+2. __run ``mvn clean install``__  
+3. __run``java -jar target/csv-reader-0.0.1-SNAPSHOT.jar``__  
+4. __to run csvReader open http://localhost:8081/load__
+5. __to view dataBase table with sorted Records from input file in /resources/Interview-task-data-osh.csv
    access http://localhost:8081/h2-console__  
   + __log In to devtools__  
       1. Generic H2 (Embedded)  
@@ -28,11 +29,12 @@
  
 ## Used technologies:
 **SpringBoot**  
-**Spring Batch**    
+**Spring Batch**  
+**Spring Devtools**     
 **Hibernate**   
 **Jpa**    
 **H2 Database**    
-**Spring Devtools**    
+  
     
   
     
