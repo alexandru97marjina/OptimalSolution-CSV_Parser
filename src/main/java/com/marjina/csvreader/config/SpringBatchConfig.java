@@ -1,6 +1,9 @@
-package com.marjina.csvreader.batch;
+package com.marjina.csvreader.config;
 
-import com.marjina.csvreader.config.*;
+import com.marjina.csvreader.batch.DataBaseProcessor;
+import com.marjina.csvreader.batch.DataBaseWriter;
+import com.marjina.csvreader.batch.DumpItemProcessor;
+import com.marjina.csvreader.batch.StatisticsListener;
 import com.marjina.csvreader.entity.Customer;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

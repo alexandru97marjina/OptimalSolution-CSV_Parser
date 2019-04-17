@@ -1,4 +1,4 @@
-package com.marjina.csvreader.config;
+package com.marjina.csvreader.batch;
 
 import com.marjina.csvreader.controller.LoadController;
 import org.slf4j.Logger;
@@ -9,6 +9,7 @@ import org.springframework.batch.core.StepExecutionListener;
 
 public class StatisticsListener implements StepExecutionListener {
     Logger logger = LoggerFactory.getLogger(LoadController.class);
+
 
     @Override
     public void beforeStep(StepExecution stepExecution) {

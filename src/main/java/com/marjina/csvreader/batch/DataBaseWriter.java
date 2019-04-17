@@ -1,4 +1,4 @@
-package com.marjina.csvreader.config;
+package com.marjina.csvreader.batch;
 
 import com.marjina.csvreader.entity.Customer;
 import com.marjina.csvreader.repository.CustomerRepository;
