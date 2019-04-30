@@ -1,4 +1,4 @@
-# CSV_READER for parsing data from a csv file to H2 mem Database using ORM excluding dump data to time output/bad-data-<timestamp>.csv
+# CSV_READER for parsing data from a csv file to H2 mem Database using ORM excluding dump data to ``output/bad-data-<timestamp>.csv``  
 
 ***
 ### Start application
